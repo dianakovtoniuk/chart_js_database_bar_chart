@@ -1,3 +1,5 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import express from 'express';
 import pg from 'pg';
 
@@ -8,6 +10,10 @@ const pool = new pg.Pool({
 });
 
 const app = express();
+
+// serve the built frontend (npm run build creates dist/)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, '../dist')));
 
 // sum every month column across all rows
 app.get('/api/sums', async (_req, res) => {
