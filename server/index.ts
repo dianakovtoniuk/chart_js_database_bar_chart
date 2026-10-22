@@ -11,6 +11,15 @@ const pool = new pg.Pool({
 
 const app = express();
 
+// allow the frontend (for example on Vercel) to call this API
+app.use((_req, res, next) => {
+  const origin = process.env.CORS_ORIGIN;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  next();
+});
+
 // serve the built frontend (npm run build creates dist/)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, '../dist')));

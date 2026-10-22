@@ -51,7 +51,9 @@ The API runs on port 3000 and Vite proxies requests from `/api` to it. In produc
 
 ## Deployment
 
-The app is deployed as one Render Web Service with a Neon PostgreSQL database.
+The API runs on Render, the frontend runs on Vercel and the data lives in a Neon PostgreSQL database.
+
+### Database and API (Neon + Render)
 
 1. Create a Neon project and run `db/init.sql` in its SQL Editor.
 2. Push the repository to GitHub.
@@ -59,4 +61,13 @@ The app is deployed as one Render Web Service with a Neon PostgreSQL database.
    - Build command: `npm install --include=dev && npm run build`
    - Start command: `npm start`
 4. Add the environment variable `DATABASE_URL` with the Neon connection string.
-5. Deploy and open the `onrender.com` URL.
+5. Deploy and open `/api/sums` on the `onrender.com` URL to check the data.
+
+### Frontend (Vercel)
+
+1. In Vercel import the same GitHub repository. The Vite framework preset is detected automatically.
+2. Add the environment variable `VITE_API_URL` with the Render URL, without a trailing slash.
+3. Deploy and copy the `vercel.app` URL.
+4. In Render add the environment variable `CORS_ORIGIN` with the Vercel URL, without a trailing slash, so the browser is allowed to call the API.
+
+`VITE_API_URL` is read at build time, so redeploy the frontend after changing it.

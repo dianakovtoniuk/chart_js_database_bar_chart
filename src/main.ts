@@ -5,8 +5,11 @@ interface SumsResponse {
   data: number[];
 }
 
+// empty locally (Vite proxy), the Render API address in production
+const API_URL = import.meta.env.VITE_API_URL ?? '';
+
 async function main(): Promise<void> {
-  const response = await fetch('/api/sums');
+  const response = await fetch(`${API_URL}/api/sums`);
   if (!response.ok) {
     throw new Error(`Request failed: ${response.status}`);
   }
